@@ -1,0 +1,6 @@
+__pycache__
+package/build
+package/dist
+package/encoder.egg-info
+.idea
+encoder-venv
