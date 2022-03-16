@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Tuple
 from pathlib import Path
 import os
 import re
@@ -25,11 +25,12 @@ def _build_dictionary_list() -> Dict[str, str]:
     return {_file_name_to_option(file_name): file_name for file_name in os.listdir(_DICTIONARY_FOLDER)}
 
 
-def _read_dictionary_from_file(dictionary: str) -> Dict[str, str]:
+def _read_dictionary_from_file(dictionary: str) -> Tuple[str, Dict[str, str]]:
     dictionary_file_name = _AVAILABLE_DICTIONARIES[dictionary]
     dictionary_file = _DICTIONARY_FOLDER.joinpath(dictionary_file_name).absolute()
     with open(dictionary_file, 'r') as file:
-        return yaml.safe_load(file)
+        contents = yaml.safe_load(file)
+        return contents['padding'], contents['mappings']
 
 
 _AVAILABLE_DICTIONARIES = _build_dictionary_list()
@@ -44,7 +45,8 @@ def encode_group():
 @click.argument('value')
 @click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
 def encode_string_command(value: str, dictionary: str):
-    print(encode_string(value, _read_dictionary_from_file(dictionary)))
+    padding, mappings = _read_dictionary_from_file(dictionary)
+    print(encode_string(value, mappings, padding))
 
 
 @click.command('file')
@@ -55,7 +57,8 @@ def encode_file_command(file: str, dictionary: str):
     if not file_path.is_file():
         raise Exception('The provided path does not exist or does not point to a file.')
     with open(file_path, 'rb') as file:
-        encoded_value = encode_bytes(file.read(), _read_dictionary_from_file(dictionary))
+        padding, mappings = _read_dictionary_from_file(dictionary)
+        encoded_value = encode_bytes(file.read(), mappings, padding)
         print(encoded_value)
 
 
@@ -72,7 +75,8 @@ def decode_group():
 @click.argument('value')
 @click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
 def decode_string_command(value: str, dictionary: str):
-    print(decode_to_string(value, _read_dictionary_from_file(dictionary)))
+    padding, mappings = _read_dictionary_from_file(dictionary)
+    print(decode_to_string(value, mappings, padding))
 
 
 @click.command('file')
@@ -80,7 +84,8 @@ def decode_string_command(value: str, dictionary: str):
 @click.argument('output')
 @click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
 def decode_file_command(value: str, output: str, dictionary: str):
-    decoded = decode_to_bytes(value, _read_dictionary_from_file(dictionary))
+    padding, mappings = _read_dictionary_from_file(dictionary)
+    decoded = decode_to_bytes(value, mappings, padding)
     with open(output, 'wb') as file:
         file.write(decoded)
 
@@ -92,13 +97,15 @@ decode_group.add_command(decode_string_command)
 @click.command('generate')
 @click.argument('binary_key_length', type=int)
 @click.argument('encoded_character_length', type=int)
+@click.option('--padding-character', '-p', default='=')
 @click.option('--outfile', '-o')
-def generate_command(binary_key_length: int, encoded_character_length: int, outfile: str):
-    generated = generate_dictionary(binary_key_length, encoded_character_length)
+def generate_command(binary_key_length: int, encoded_character_length: int, padding_character: str, outfile: str):
+    generated = generate_dictionary(binary_key_length, encoded_character_length, padding_character)
+    dictionary = {'padding': padding_character, 'mappings': generated}
     if outfile is None:
-        return print(yaml.safe_dump(generated))
+        return print(yaml.safe_dump(dictionary))
     with open(outfile, 'w') as file:
-        yaml.safe_dump(generated, file)
+        yaml.safe_dump(dictionary, file)
 
 
 @click.group()
