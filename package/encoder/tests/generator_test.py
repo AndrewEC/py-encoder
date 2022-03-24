@@ -17,6 +17,12 @@ class GeneratorTest(unittest.TestCase):
                 dictionary = generate_encoding_dictionary(args[0], args[1], args[2])
                 EncodingDefinitionTable(dictionary, args[2])
 
+                first_key = next((_ for _ in dictionary.keys()))
+                self.assertEqual(args[0], len(first_key))
+
+                first_representation = next((_ for _ in dictionary.values()))
+                self.assertEqual(args[1], len(first_representation))
+
     def test_generate_dictionaries_with_invalid_inputs(self):
         arguments = [
             (0, 1, '='),

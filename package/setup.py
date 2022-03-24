@@ -8,8 +8,5 @@ if __name__ == '__main__':
         author='Andrew Cumming',
         author_email='andrew.e.cumming@gmail.com',
         url='https://github.com/AndrewEC/python-base64-encoder',
-        packages=['encoder', 'encoder.lib'],
-        install_requires=[
-            'Click==8.0.4'
-        ]
+        packages=['encoder', 'encoder.lib']
     )
