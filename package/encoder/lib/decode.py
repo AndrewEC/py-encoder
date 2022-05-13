@@ -45,9 +45,9 @@ class Decoder(EncodingDefinitionTable):
 
     def _get_binary_from_representation(self, characters: str) -> str:
         padding_multiplier = 2 if self._even_key_length else 1
-        padding_characters = (len(characters) - self._representation_value_length) * padding_multiplier
+        padding_character_count = (len(characters) - self._representation_value_length) * padding_multiplier
         binary_key = self._try_get_binary_key(characters[:self._representation_value_length])
-        return binary_key[:len(binary_key) - padding_characters]
+        return binary_key[:len(binary_key) - padding_character_count]
 
     def decode(self, encoded_string: str) -> bytes:
         iterator = _EncodedCharacterIterator(encoded_string, self._padding_character, self._representation_value_length)
