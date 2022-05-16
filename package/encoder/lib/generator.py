@@ -21,7 +21,7 @@ def _validate_values(binary_key_length: int, representation_length: int, padding
         raise ValueError('The length of the binary key must be a whole number with a value greater than 0.')
     if representation_length <= 0:
         raise ValueError('The length of the representation character(s) must be a whole number with a value greater '
-                        'than 0.')
+                         'than 0.')
     if len(padding_character) == 0:
         raise ValueError('The padding character must consist of, at minimum, one character.')
 
@@ -46,7 +46,7 @@ def _generate_representation(character_options: str, representation_length: int)
 
 def _generate_keys(binary_key_size: int) -> List[str]:
     maximum = int('1' * binary_key_size, 2)
-    return [_generate_key(i, binary_key_size) for i in range(maximum + 1)]
+    return [_generate_key(i, binary_key_size) for i in range(maximum)]
 
 
 def _generate_key(value: int, binary_key_size: int) -> str:
