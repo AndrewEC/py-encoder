@@ -7,4 +7,6 @@ if (Test-Path $EnvFolder) {
     python -m venv $EnvFolder `
         && Invoke-Expression "./$EnvFolder/Scripts/Activate.ps1" `
         && pip install -r requirements.txt `
+
+    cd package && python setup.py install && cd ..
 }
