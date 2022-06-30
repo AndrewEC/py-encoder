@@ -6,9 +6,7 @@ import re
 import click
 import yaml
 
-from encoder.encode import encode_string, encode_bytes
-from encoder.decode import decode_to_string, decode_to_bytes
-from encoder.generator import generate_dictionary
+from encoder import encode_string, encode_bytes, decode_to_bytes, decode_to_string, generate_encoding_dictionary
 
 
 _DICTIONARY_FOLDER = Path(__file__).parent.joinpath('dictionaries').absolute()
@@ -100,12 +98,12 @@ decode_group.add_command(decode_string_command)
 @click.option('--padding-character', '-p', default='=')
 @click.option('--outfile', '-o')
 def generate_command(binary_key_length: int, encoded_character_length: int, padding_character: str, outfile: str):
-    generated = generate_dictionary(binary_key_length, encoded_character_length, padding_character)
-    dictionary = {'padding': padding_character, 'mappings': generated}
+    generated = generate_encoding_dictionary(binary_key_length, encoded_character_length, padding_character)
+    generated_dict = dict(generated)
     if outfile is None:
-        return print(yaml.safe_dump(dictionary))
+        return print(yaml.safe_dump(generated_dict))
     with open(outfile, 'w') as file:
-        yaml.safe_dump(dictionary, file)
+        yaml.safe_dump(generated_dict, file)
 
 
 @click.group()

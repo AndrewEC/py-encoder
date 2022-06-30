@@ -20,8 +20,8 @@ class EncodeDecodeTest(unittest.TestCase):
     def test_encoding_generated_dictionary(self):
         dictionary = generate_encoding_dictionary(6, 1, '/')
 
-        encode_result = encode_string(EncodeDecodeTest._UNENCODED, dictionary, '/')
+        encode_result = encode_string(EncodeDecodeTest._UNENCODED, dictionary.mappings, dictionary.padding_character)
         self.assertNotEqual(encode_result, EncodeDecodeTest._UNENCODED)
 
-        decode_result = decode_to_string(encode_result, dictionary, '/')
+        decode_result = decode_to_string(encode_result, dictionary.mappings, dictionary.padding_character)
         self.assertEqual(decode_result, EncodeDecodeTest._UNENCODED)

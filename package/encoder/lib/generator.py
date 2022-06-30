@@ -9,11 +9,33 @@ from .pad_string import lpad_string
 _EXCLUDE_CHARACTERS = '\\"`\''
 
 
-def generate_encoding_dictionary(binary_key_length: int, representation_length: int, padding_character: str = '=') -> Dict[str, str]:
+class EncodingDictionary:
+
+    def __init__(self, padding_character: str, mappings: Dict[str, str]):
+        self.padding_character = padding_character
+        self.mappings = mappings
+
+    def __iter__(self):
+        yield 'padding', self.padding_character
+        yield 'mappings', self.mappings
+
+
+def generate_encoding_dictionary(binary_key_length: int, representation_length: int, padding_character: str = '=') -> EncodingDictionary:
+    """
+    Generates a pseudo-random character encoding dictionary that can be used to with the encoder and decoder provided
+    in this package.
+
+    :param binary_key_length: The length of the binary string to be mapped to an encoded character representation.
+    :param representation_length: The number of characters to be used as an encoded representation of the binary value.
+    :param padding_character: The character, or characters, to be used as padding.
+    :return: A generated dictionary containing
+    """
+
     _validate_values(binary_key_length, representation_length, padding_character)
     keys = _generate_keys(binary_key_length)
     representations = _generate_representations(len(keys), representation_length, padding_character)
-    return {keys[i]: representations[i] for i in range(len(keys))}
+    mappings = {keys[i]: representations[i] for i in range(len(keys))}
+    return EncodingDictionary(padding_character, mappings)
 
 
 def _validate_values(binary_key_length: int, representation_length: int, padding_character: str):

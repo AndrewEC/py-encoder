@@ -6,21 +6,30 @@ from .convert import binary_to_bytes
 
 class _EncodedCharacterIterator:
 
+    """
+    Utility class that helps iterate over characters in an encoded string. The number of characters yielded
+    per iteration is equal to the encoded_character_length constructor argument.
+
+    This starts at the end of the string. Meaning the first iteration will yield n characters that appear at the end
+    of the string in the order that they appear in the string. For example if encoded_character_length is 2
+    the first iteration of 'hello_world!' would yield 'd!'.
+    """
+
     def __init__(self, encoded_string: str, padding_character: str, encoded_character_length: int):
         self._encoded_string = encoded_string
         self._padding_character = padding_character
         self._encoded_character_length = encoded_character_length
 
-    def _strip_padding_characters(self, encoded_string: str, padding_character: str) -> Tuple[str, int]:
-        encoded_string_cp = encoded_string[:]
+    def _strip_padding_characters(self) -> Tuple[str, int]:
+        encoded_string_cp = self._encoded_string[:]
         count = 0
-        while encoded_string_cp.endswith(padding_character):
+        while encoded_string_cp.endswith(self._padding_character):
             count = count + 1
-            encoded_string_cp = encoded_string_cp[:len(encoded_string_cp) - len(padding_character)]
+            encoded_string_cp = encoded_string_cp[:len(encoded_string_cp) - len(self._padding_character)]
         return encoded_string_cp, count
 
     def __iter__(self):
-        encoded_less_padding, padding_character_count = self._strip_padding_characters(self._encoded_string, self._padding_character)
+        encoded_less_padding, padding_character_count = self._strip_padding_characters()
         position = len(encoded_less_padding)
         while True:
             if position <= 0:
@@ -61,10 +70,32 @@ class Decoder(EncodingDefinitionTable):
 def decode_to_string(encoded: str,
                      encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
                      padding_character: str = BASE_64_PADDING_CHARACTER) -> str:
+    """
+    Decodes the input value string using the encoding_dictionary and padding_character back to its original value.
+    If no dictionary or padding character have been provided then this will fall back to the default base64 dictionary
+    and padding character.
+
+    :param encoded: The already encoded string to be decoded.
+    :param encoding_dictionary: The dictionary containing the binary keys and encoded character representations.
+    :param padding_character: The padding character.
+    :return: The decoded, original, representation of the input encoded string.
+    """
+
     return Decoder(encoding_dictionary, padding_character).decode_string(encoded)
 
 
 def decode_to_bytes(encoded: str,
                     encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
                     padding_character: str = BASE_64_PADDING_CHARACTER) -> bytes:
+    """
+    Decodes the input value string using the encoding_dictionary and padding_character back to its original byte value.
+    If no dictionary or padding character have been provided then this will fall back to the default base64 dictionary
+    and padding character.
+
+    :param encoded: The already encoded string to be decoded.
+    :param encoding_dictionary: The dictionary containing the binary keys and encoded character representations.
+    :param padding_character: The padding character.
+    :return: The decoded, original, byte representation of the input encoded string.
+    """
+
     return Decoder(encoding_dictionary, padding_character).decode(encoded)

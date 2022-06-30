@@ -71,6 +71,14 @@ BASE_64_ENCODING_DICTIONARY: Dict[str, str] = {
 
 class BinaryChunkIterator:
 
+    """
+    Utility class to assist in iterating over a binary string for n number of characters per iteration. The number
+    characters iterated over per iteration is defined by the chunk_size constructor argument.
+
+    For example if the chunk size is 8 each iteration will yield a binary string containing 8 character or 8 bits or
+    1 byte.
+    """
+
     def __init__(self, value: str, chunk_size: int):
         self._value = value
         self._chunk_size = chunk_size
@@ -91,6 +99,16 @@ class BinaryChunkIterator:
 
 
 class EncodingDefinitionTable:
+
+    """
+    Contains basic logic to validate the encoding dictionary and padding characters.
+
+    This class will validate the encoding dictionary to ensure the following rules are met will ensure the following:
+    - All binary keys are of the same length
+    - Each binary key is made up of the characters: 0 and 1
+    - All character representations are of the same length
+    - The padding character doesn't improperly overlap with a trailing character one of the character representations
+    """
 
     def __init__(self, encoding_dictionary: Dict[str, str], padding_character: str):
         if len(encoding_dictionary) == 0:

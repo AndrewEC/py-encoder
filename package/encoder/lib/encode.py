@@ -43,10 +43,31 @@ class Encoder(EncodingDefinitionTable):
 def encode_string(value: str,
                   encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
                   padding_character: str = BASE_64_PADDING_CHARACTER) -> str:
+    """
+    Encodes the input value string using the encoding_dictionary and padding_character. If no dictionary or padding
+    character have been provided then this will fall back to the default base64 dictionary and padding character.
+
+    :param value: The input string to be encoded.
+    :param encoding_dictionary: The dictionary containing the binary keys and encoded character representations.
+    :param padding_character: The padding character.
+    :return: An encoded string representation of the original value string.
+    """
+
     return Encoder(encoding_dictionary, padding_character).encode_string(value)
 
 
 def encode_bytes(value: bytes,
                  encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
                  padding_character: str = BASE_64_PADDING_CHARACTER) -> str:
+    """
+    Encodes a series of bytes into an encoded string representation using the encoding_dictionary and padding_character.
+    If no dictionary or padding character have been provided then this will fall back to the default base64 dictionary
+    and padding character.
+
+    :param value: The bytes to be encoded to a string.
+    :param encoding_dictionary: The dictionary containing the binary keys and encoded character representations.
+    :param padding_character: The padding character.
+    :return: An encoded string representation of the original bytes.
+    """
+
     return Encoder(encoding_dictionary, padding_character).encode_bytes(value)
