@@ -2,6 +2,7 @@ from typing import Dict, Tuple
 from pathlib import Path
 import os
 import re
+from getpass import getpass
 
 import click
 import yaml
@@ -39,12 +40,16 @@ def encode_group():
     pass
 
 
+def _get_value_to_encode(value: str) -> str:
+    return getpass('Enter string to encode: ') if value == '?' else value
+
+
 @click.command('string')
 @click.argument('value')
 @click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
 def encode_string_command(value: str, dictionary: str):
     padding, mappings = _read_dictionary_from_file(dictionary)
-    print(encode_string(value, mappings, padding))
+    print(encode_string(_get_value_to_encode(value), mappings, padding))
 
 
 @click.command('file')
