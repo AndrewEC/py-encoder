@@ -17,6 +17,8 @@ def _file_name_to_option(file_name: str) -> str:
     index = file_name.rfind('.')
     file_name = file_name[:index]
     components = re.findall('[A-Z][^A-Z]*', file_name)
+    if len(components) == 0:
+        return file_name.lower()
     return '-'.join([component.lower() for component in components])
 
 
