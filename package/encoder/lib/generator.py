@@ -48,7 +48,7 @@ def _validate_values(binary_key_length: int, representation_length: int, padding
     if len(padding_character) == 0:
         raise ValueError('The padding character must consist of, at minimum, one character.')
 
-    unique_character_count = len(string.ascii_uppercase + string.ascii_lowercase + string.punctuation) - len(padding_character + _EXCLUDE_CHARACTERS)
+    unique_character_count = len(_get_available_characters()) - len(padding_character + _EXCLUDE_CHARACTERS)
     unique_combinations = math.pow(unique_character_count, representation_length)
     max_decimal_value = _max_decimal_value_for_bit_count(binary_key_length)
     if max_decimal_value >= unique_combinations:
@@ -57,7 +57,7 @@ def _validate_values(binary_key_length: int, representation_length: int, padding
 
 
 def _generate_representations(number_of_characters: int, representation_length: int, padding_character: str) -> List[str]:
-    character_options = string.ascii_uppercase + string.ascii_lowercase + string.punctuation
+    character_options = _get_available_characters()
     for character in padding_character + _EXCLUDE_CHARACTERS:
         character_options = character_options.replace(character, '')
     representations = []
@@ -70,8 +70,7 @@ def _generate_representations(number_of_characters: int, representation_length: 
 
 
 def _generate_representation(character_options: str, representation_length: int) -> str:
-    option_count = len(character_options)
-    return ''.join([character_options[randrange(option_count)] for _ in range(representation_length)])
+    return ''.join(character_options[randrange(len(character_options))] for _ in range(representation_length))
 
 
 def _generate_keys(binary_key_size: int) -> List[str]:
@@ -85,3 +84,7 @@ def _max_decimal_value_for_bit_count(bit_count: int) -> int:
 def _generate_key(value: int, binary_key_size: int) -> str:
     key = strip_binary_prefix(bin(value))
     return lpad_string(key, binary_key_size, '0')
+
+
+def _get_available_characters() -> str:
+    return string.ascii_uppercase + string.ascii_lowercase + string.punctuation

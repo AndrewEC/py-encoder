@@ -73,9 +73,9 @@ class BinaryChunkIterator:
 
     """
     Utility class to assist in iterating over a binary string for n number of characters per iteration. The number
-    characters iterated over per iteration is defined by the chunk_size constructor argument.
+    of characters iterated over per iteration is defined by the chunk_size constructor argument.
 
-    For example if the chunk size is 8 each iteration will yield a binary string containing 8 character or 8 bits or
+    For example if the chunk size is 8 each iteration will yield a binary string containing 8 characters or 8 bits or
     1 byte.
     """
 
@@ -142,7 +142,7 @@ class EncodingDefinitionTable:
             if len(representation) != self._representation_value_length:
                 raise ValueError(
                     f'Representation [{representation}] for binary key [{binary_key}] does not match length of first '
-                    'representation of [{self._representation_value_length}]')
+                    f'representation of [{self._representation_value_length}]')
 
     def _validate_padding_character(self):
         for key, value in self._encoding_dictionary.items():
