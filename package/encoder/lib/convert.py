@@ -44,7 +44,7 @@ def bytes_to_binary(value: bytes) -> str:
     :return: A binary string representation of the bytes.
     """
 
-    return ''.join(_format_binary_string(bin(char)) for char in value)
+    return ''.join(_format_binary_string(bin(single_byte)) for single_byte in value)
 
 
 def string_to_binary(value: str) -> str:

@@ -1,5 +1,5 @@
 def _get_padding(value: str, target_length: int, padding_character: str) -> str:
-    if len(value) > target_length:
+    if len(value) >= target_length:
         return ''
     return padding_character * (target_length - len(value))
 

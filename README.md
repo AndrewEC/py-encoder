@@ -12,5 +12,5 @@ you can run a command like `python run.py encode string --help` and get a list o
 be supplied with the `--dictionary` argument.
 
 ## Test Scripts
-To run execute the unit tests change to the `package` directory and run the command:
+To execute the unit test suite change to the `package` directory and run the command:
 `python -m unittest encoder.tests._run_all`
