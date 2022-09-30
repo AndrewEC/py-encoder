@@ -2,7 +2,8 @@ from typing import Dict
 
 from .convert import string_to_binary, bytes_to_binary
 from .pad_string import rpad_string
-from .data import BASE_64_ENCODING_DICTIONARY, EncodingDefinitionTable, BASE_64_PADDING_CHARACTER, BinaryChunkIterator
+from .data import EncodingDefinitionTable, BinaryChunkIterator, get_or_default_padding,\
+    get_or_default_dictionary
 
 
 class Encoder(EncodingDefinitionTable):
@@ -41,8 +42,8 @@ class Encoder(EncodingDefinitionTable):
 
 
 def encode_string(value: str,
-                  encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
-                  padding_character: str = BASE_64_PADDING_CHARACTER) -> str:
+                  encoding_dictionary: Dict[str, str] | None = None,
+                  padding_character: str | None = None) -> str:
     """
     Encodes the input value string using the encoding_dictionary and padding_character. If no dictionary or padding
     character have been provided then this will fall back to the default base64 dictionary and padding character.
@@ -53,12 +54,15 @@ def encode_string(value: str,
     :return: An encoded string representation of the original value string.
     """
 
-    return Encoder(encoding_dictionary, padding_character).encode_string(value)
+    return Encoder(
+        get_or_default_dictionary(encoding_dictionary),
+        get_or_default_padding(padding_character)
+    ).encode_string(value)
 
 
 def encode_bytes(value: bytes,
-                 encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
-                 padding_character: str = BASE_64_PADDING_CHARACTER) -> str:
+                 encoding_dictionary: Dict[str, str] | None = None,
+                 padding_character: str | None = None) -> str:
     """
     Encodes a series of bytes into an encoded string representation using the encoding_dictionary and padding_character.
     If no dictionary or padding character have been provided then this will fall back to the default base64 dictionary
@@ -70,4 +74,7 @@ def encode_bytes(value: bytes,
     :return: An encoded string representation of the original bytes.
     """
 
-    return Encoder(encoding_dictionary, padding_character).encode_bytes(value)
+    return Encoder(
+        get_or_default_dictionary(encoding_dictionary),
+        get_or_default_padding(padding_character)
+    ).encode_bytes(value)

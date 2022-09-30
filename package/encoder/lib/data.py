@@ -1,7 +1,7 @@
 from typing import Dict
 
-BASE_64_PADDING_CHARACTER = '='
-BASE_64_ENCODING_DICTIONARY: Dict[str, str] = {
+_BASE_64_PADDING_CHARACTER = '='
+_BASE_64_ENCODING_DICTIONARY: Dict[str, str] = {
     '000000': 'A',
     '000001': 'B',
     '000010': 'C',
@@ -69,6 +69,14 @@ BASE_64_ENCODING_DICTIONARY: Dict[str, str] = {
 }
 
 
+def get_or_default_padding(padding_character: str | None) -> str:
+    return padding_character if padding_character is not None else _BASE_64_PADDING_CHARACTER
+
+
+def get_or_default_dictionary(encoding_dictionary: Dict[str, str] | None) -> Dict[str, str]:
+    return encoding_dictionary if encoding_dictionary is not None else _BASE_64_ENCODING_DICTIONARY.copy()
+
+
 class BinaryChunkIterator:
 
     """
@@ -113,7 +121,7 @@ class EncodingDefinitionTable:
     def __init__(self, encoding_dictionary: Dict[str, str], padding_character: str):
         if len(encoding_dictionary) == 0:
             raise ValueError('The provided encoding dictionary must contain at least one entry.')
-        self._encoding_dictionary = encoding_dictionary
+        self._encoding_dictionary = encoding_dictionary.copy()
         self._padding_character = padding_character
         self._binary_key_length = len(next(_ for _ in encoding_dictionary.keys()))
         self._representation_value_length = len(next(_ for _ in encoding_dictionary.values()))

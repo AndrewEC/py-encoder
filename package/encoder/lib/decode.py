@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
 
-from .data import BASE_64_ENCODING_DICTIONARY, EncodingDefinitionTable, BASE_64_PADDING_CHARACTER
+from .data import EncodingDefinitionTable, get_or_default_dictionary, get_or_default_padding
 from .convert import binary_to_bytes
 
 
@@ -68,8 +68,8 @@ class Decoder(EncodingDefinitionTable):
 
 
 def decode_to_string(encoded: str,
-                     encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
-                     padding_character: str = BASE_64_PADDING_CHARACTER) -> str:
+                     encoding_dictionary: Dict[str, str] | None = None,
+                     padding_character: str | None = None) -> str:
     """
     Decodes the input value string using the encoding_dictionary and padding_character back to its original value.
     If no dictionary or padding character have been provided then this will fall back to the default base64 dictionary
@@ -81,12 +81,15 @@ def decode_to_string(encoded: str,
     :return: The decoded, original, representation of the input encoded string.
     """
 
-    return Decoder(encoding_dictionary, padding_character).decode_string(encoded)
+    return Decoder(
+        get_or_default_dictionary(encoding_dictionary),
+        get_or_default_padding(padding_character)
+    ).decode_string(encoded)
 
 
 def decode_to_bytes(encoded: str,
-                    encoding_dictionary: Dict[str, str] = BASE_64_ENCODING_DICTIONARY,
-                    padding_character: str = BASE_64_PADDING_CHARACTER) -> bytes:
+                    encoding_dictionary: Dict[str, str] | None = None,
+                    padding_character: str | None = None) -> bytes:
     """
     Decodes the input value string using the encoding_dictionary and padding_character back to its original byte value.
     If no dictionary or padding character have been provided then this will fall back to the default base64 dictionary
@@ -98,4 +101,7 @@ def decode_to_bytes(encoded: str,
     :return: The decoded, original, byte representation of the input encoded string.
     """
 
-    return Decoder(encoding_dictionary, padding_character).decode(encoded)
+    return Decoder(
+        get_or_default_dictionary(encoding_dictionary),
+        get_or_default_padding(padding_character)
+    ).decode(encoded)

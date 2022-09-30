@@ -1,6 +1,6 @@
 import unittest
 
-from ..lib.data import EncodingDefinitionTable, BASE_64_ENCODING_DICTIONARY
+from ..lib.data import EncodingDefinitionTable, get_or_default_dictionary
 
 
 class EncodingDefinitionTableTest(unittest.TestCase):
@@ -22,4 +22,4 @@ class EncodingDefinitionTableTest(unittest.TestCase):
                 self.assertTrue(args[1] in str(context.exception))
 
     def test_initialize_table_with_valid_definition(self):
-        EncodingDefinitionTable(BASE_64_ENCODING_DICTIONARY, '=')
+        EncodingDefinitionTable(get_or_default_dictionary(None), '=')
