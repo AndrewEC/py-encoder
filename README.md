@@ -11,6 +11,21 @@ custom or generated dictionaries by creating a new yaml file and adding it to th
 you can run a command like `python run.py encode string --help` and get a list of available dictionaries that can
 be supplied with the `--dictionary` argument.
 
-## Test Scripts
-To execute the unit test suite change to the `package` directory and run the command:
-`python -m unittest encoder.tests._run_all`
+## Quality Metrics
+Before running any of the scripts or commands listed below you should create or activate the appropriate virtual
+environment using the script `CreateVenv.ps1`.
+
+### Unit Tests
+Execute the unit tests and generate a code coverage report:
+> Coverage.ps1
+
+Alternatively you can execute unit tests without any code coverage:
+> python -m unittest encoder.tests._run_all
+
+### Mutation Test
+Execute the mutation tests and view the kill count report:
+> Mutations.ps1
+
+### Linting
+To run flake8 and view the results:
+> flake8

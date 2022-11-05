@@ -1,6 +1,8 @@
 __pycache__
-package/build
-package/dist
-package/encoder.egg-info
+build
+dist
+encoder.egg-info
 .idea
-encoder-venv
+py-encoder-venv
+.coverage
+.mutmut-cache
