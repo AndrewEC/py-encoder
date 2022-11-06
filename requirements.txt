@@ -3,3 +3,4 @@ pyaml==21.10.1
 coverage==6.3.2
 mutmut==2.4.0
 flake8==4.0.1
+Sphinx==4.4.0

@@ -1,3 +1,6 @@
 [submodule "py-timeout-utils"]
 	path = py-timeout-utils
 	url = https://github.com/AndrewEC/py-timeout-utils.git
+[submodule "py-build-utils"]
+	path = py-build-utils
+	url = https://github.com/AndrewEC/py-build-utils.git
