@@ -5,7 +5,7 @@ from time import sleep
 import ctypes
 
 
-class TestCaseThread(threading.Thread):
+class _TestCaseThread(threading.Thread):
 
     def __init__(self, function: Callable, *args, **kwargs):
         super().__init__()
@@ -14,7 +14,7 @@ class TestCaseThread(threading.Thread):
         self._kwargs = kwargs
         self._running = False
         self._lock = threading.Lock()
-        self.execution_exception = None
+        self._execution_exception = None
 
     def run(self) -> None:
         self._running = True
@@ -22,8 +22,16 @@ class TestCaseThread(threading.Thread):
         try:
             self._function(*self._args, **self._kwargs)
         except Exception as e:
-            self.execution_exception = e
+            self._execution_exception = e
         self._set_running(False)
+
+    def _set_exception(self, value: Exception):
+        with self._lock:
+            self._execution_exception = value
+
+    def get_exception(self) -> Exception:
+        with self._lock:
+            return self._execution_exception
 
     def _set_running(self, value: bool):
         with self._lock:
@@ -34,7 +42,7 @@ class TestCaseThread(threading.Thread):
             return self._running
 
 
-class TimeoutThread(threading.Thread):
+class _TimeoutThread(threading.Thread):
 
     _WAIT_TIME = 0.25
 
@@ -42,15 +50,17 @@ class TimeoutThread(threading.Thread):
         super().__init__()
         self.execution_exception = None
         self._execution_timeout = execution_timeout
-        self._test_case_thread = TestCaseThread(function, *args, **kwargs)
-        self._wait_iterations = math.floor(int(execution_timeout / TimeoutThread._WAIT_TIME))
+        self._test_case_thread = _TestCaseThread(function, *args, **kwargs)
+        self._wait_iterations = math.floor(int(execution_timeout / _TimeoutThread._WAIT_TIME))
 
     def run(self) -> None:
         self._test_case_thread.start()
+
         for _ in range(self._wait_iterations):
             if not self._test_case_thread.is_running():
                 break
-            sleep(TimeoutThread._WAIT_TIME)
+            sleep(_TimeoutThread._WAIT_TIME)
+
         if self._test_case_thread.is_running():
             try:
                 self._force_quit_test_case_thread()
@@ -61,7 +71,10 @@ class TimeoutThread(threading.Thread):
             self._test_case_thread.join()
 
     def _force_quit_test_case_thread(self):
-        print(f'Test case timeout, attempting to force close test case thread: [{self._test_case_thread.ident}]')
+        """
+        Adapted from the answer from: https://stackoverflow.com/questions/323972/is-there-any-way-to-kill-a-thread
+        """
+
         exc = ctypes.py_object(SystemExit)
         res = ctypes.pythonapi.PyThreadState_SetAsyncExc(ctypes.c_long(self._test_case_thread.ident), exc)
         if res == 0:
@@ -76,7 +89,7 @@ class TimeoutThread(threading.Thread):
         return self.get_exception() is not None
 
     def get_exception(self) -> Exception | None:
-        return self.execution_exception if self.execution_exception is not None else self._test_case_thread.execution_exception
+        return self.execution_exception if self.execution_exception is not None else self._test_case_thread.get_exception()
 
 
 def timeout(timeout_seconds: int):
@@ -89,7 +102,7 @@ def timeout(timeout_seconds: int):
     """
     def inner(function):
         def wrapper(*args, **kwargs):
-            timeout_thread = TimeoutThread(timeout_seconds, function, *args, **kwargs)
+            timeout_thread = _TimeoutThread(timeout_seconds, function, *args, **kwargs)
             timeout_thread.start()
             timeout_thread.join()
             if timeout_thread.has_exception():
