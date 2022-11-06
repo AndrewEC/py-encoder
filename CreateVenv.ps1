@@ -6,9 +6,9 @@ if (Test-Path $EnvFolder) {
 } else {
     python -m venv $EnvFolder `
         && Invoke-Expression "./$EnvFolder/Scripts/Activate.ps1" `
-        && pip install -r requirements.txt `
+        && pip install -r requirements.txt
 
-    python setup.py install
-    cd py-timeout-utils && python setup.py install && cd ..
-    cd py-build-utils && python setup.py install && cd ..
+    python setup.py install `
+    	&& cd py-timeout-utils && python setup.py install && cd .. `
+    	&& cd py-build-utils && python setup.py install && cd ..
 }
