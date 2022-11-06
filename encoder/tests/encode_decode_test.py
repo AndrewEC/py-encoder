@@ -1,6 +1,6 @@
 import unittest
 
-from .timeout_util import timeout
+from timeout import timeout
 
 from ..lib.encode import encode_string
 from ..lib.decode import decode_to_string

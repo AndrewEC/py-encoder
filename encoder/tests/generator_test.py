@@ -1,6 +1,6 @@
 import unittest
 
-from .timeout_util import timeout
+from timeout import timeout
 
 from ..lib.generator import generate_encoding_dictionary
 from ..lib.data import EncodingDefinitionTable

@@ -1,6 +1,10 @@
 # py-encoder
 A POC python package for creating a customizable Base64 encoder and decoder.
 
+## Cloning
+To clone the project and the required submodules run:
+> git clone --recurse-submodules https://github.com/AndrewEC/py-encoder.git
+
 ## Playground
 First run the powershell script `CreateVenv.ps1` from the root of this project then run the run.py script:
 `python run.py --help`.
