@@ -6,3 +6,4 @@ encoder.egg-info
 py-encoder-venv
 .coverage
 .mutmut-cache
+html
