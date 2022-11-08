@@ -10,7 +10,7 @@ def binary_to_bytes(binary_string: str) -> bytes:
     """
     Converts the binary string to bytes.
 
-    :param binary_string: The binary string to bytes
+    :param binary_string: The binary string to conver to bytes.
     :return: A byte representation of the binary string.
     """
 
@@ -24,7 +24,7 @@ def strip_binary_prefix(value: str) -> str:
 
     :param value: The binary string containing the prefix to remove.
     :return: The binary string less the prefix or, if the binary string does not have the prefix in question,
-    the original input string.
+        the original input string.
     """
 
     if '0b' not in value:

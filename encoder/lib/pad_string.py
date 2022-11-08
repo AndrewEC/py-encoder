@@ -14,8 +14,8 @@ def lpad_string(value: str, target_length: int, padding_character: str) -> str:
     :param target_length: The desired length of the output string.
     :param padding_character: The character to be prepended as padding.
     :return: A new string whose length is minimally equal to the length of specified by the target_length. If the
-    length of the input value string is already greater or equal to target_length then a copy of value will
-    be returned.
+        length of the input value string is already greater or equal to target_length then a copy of value will
+        be returned.
     """
     
     padding = _get_padding(value, target_length, padding_character)
@@ -32,8 +32,8 @@ def rpad_string(value: str, target_length: int, padding_character: str) -> str:
     :param target_length: The desired length of the output string.
     :param padding_character: The character to be appended as padding.
     :return: A new string whose length is minimally equal to the length of specified by the target_length. If the
-    length of the input value string is already greater or equal to target_length then a copy of value will
-    be returned.
+        length of the input value string is already greater or equal to target_length then a copy of value will
+        be returned.
     """
     
     padding = _get_padding(value, target_length, padding_character)
