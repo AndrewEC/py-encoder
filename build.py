@@ -1,7 +1,7 @@
 import click
 from buildutils import BuildConfiguration
 from buildutils.plugins import CoveragePlugin, MutationPlugin, FlakePlugin,\
-    GenericCommandPlugin, GenericCleanPlugin, EnsureVenvActivePlugin, with_alias, group_plugins
+    GenericCommandPlugin, GenericCleanPlugin, EnsureVenvActivePlugin, group
 
 
 @click.command()
@@ -15,12 +15,12 @@ def main(plugins: str, list_plugins: bool):
         .config('build.ini')
         .plugins(
             EnsureVenvActivePlugin(),
-            with_alias('clean', GenericCleanPlugin('CLEAN', 'Remove previous build files.')),
-            with_alias('install', GenericCommandPlugin('INSTALL', 'Install required dependencies from requirements.txt file.')),
+            GenericCleanPlugin('CLEAN', 'Remove previous build files.'),
+            GenericCommandPlugin('INSTALL', 'Install required dependencies from requirements.txt file.'),
             FlakePlugin(),
             CoveragePlugin(),
             MutationPlugin(),
-            group_plugins(
+            group(
                 'generate-docs',
                 GenericCommandPlugin('PREPARE_DOCS', 'Prepare Sphinx for generating documentation from inline comments.'),
                 GenericCommandPlugin('GENERATE_DOCS', 'Generate documentation from inline comments using Sphinx')
