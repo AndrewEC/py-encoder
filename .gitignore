@@ -7,3 +7,4 @@ py-encoder-venv
 .coverage
 .mutmut-cache
 html
+htmlcov
