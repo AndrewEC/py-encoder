@@ -5,12 +5,11 @@ from buildutils.plugins import CoveragePlugin, MutationPlugin, FlakePlugin,\
 
 
 @click.command()
+@click.option('--profile', '-pr')
 @click.option('--plugins', '-p')
 @click.option('--list-plugins', '-l', is_flag=True)
-def main(plugins: str, list_plugins: bool):
-    plugin_names = plugins.split(',') if plugins is not None else []
-
-    build_config = (
+def main(profile: str, plugins: str, list_plugins: bool):
+    (
         BuildConfiguration()
         .config('build.ini')
         .plugins(
@@ -26,12 +25,8 @@ def main(plugins: str, list_plugins: bool):
                 GenericCommandPlugin('GENERATE_DOCS', 'Generate documentation from inline comments using Sphinx')
             )
         )
+        .build(profile, plugins, list_plugins)
     )
-
-    if list_plugins:
-        return build_config.print_available_plugins()
-
-    build_config.build(plugin_names)
 
 
 if __name__ == '__main__':
