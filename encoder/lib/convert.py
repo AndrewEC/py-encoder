@@ -10,7 +10,7 @@ def binary_to_bytes(binary_string: str) -> bytes:
     """
     Converts the binary string to bytes.
 
-    :param binary_string: The binary string to conver to bytes.
+    :param binary_string: The binary string to convert to bytes.
     :return: A byte representation of the binary string.
     """
 
