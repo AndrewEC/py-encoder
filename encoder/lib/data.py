@@ -153,6 +153,8 @@ class EncodingDefinitionTable:
                     f'representation of [{self._representation_value_length}]')
 
     def _validate_padding_character(self):
+        if len(self._padding_character) != 1:
+            raise ValueError(f'The padding character must be a single character. Instead received: [{self._padding_character}]')
         for key, value in self._encoding_dictionary.items():
             if value.endswith(self._padding_character):
                 raise ValueError(f'The character [{self._padding_character}] cannot be used for padding as it matches '

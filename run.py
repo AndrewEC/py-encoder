@@ -85,12 +85,14 @@ def decode_string_command(value: str, dictionary: str):
 
 
 @click.command('file')
-@click.argument('value')
+@click.argument('file_path')
 @click.argument('output')
 @click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
-def decode_file_command(value: str, output: str, dictionary: str):
+def decode_file_command(file_path: str, output: str, dictionary: str):
     padding, mappings = _read_dictionary_from_file(dictionary)
-    decoded = decode_to_bytes(value, mappings, padding)
+    with open(file_path, 'r') as file:
+        file_content = ''.join([line.strip() for line in file.readlines()])
+    decoded = decode_to_bytes(file_content, mappings, padding)
     with open(output, 'wb') as file:
         file.write(decoded)
 

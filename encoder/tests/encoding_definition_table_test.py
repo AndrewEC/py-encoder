@@ -2,7 +2,7 @@ import unittest
 
 from timeout import timeout
 
-from ..lib.data import EncodingDefinitionTable, get_or_default_dictionary
+from ..lib.data import EncodingDefinitionTable, get_or_default_dictionary, get_or_default_padding
 
 
 class EncodingDefinitionTableTest(unittest.TestCase):
@@ -26,4 +26,4 @@ class EncodingDefinitionTableTest(unittest.TestCase):
 
     @timeout(3)
     def test_initialize_table_with_valid_definition(self):
-        EncodingDefinitionTable(get_or_default_dictionary(None), '=')
+        EncodingDefinitionTable(get_or_default_dictionary(None), get_or_default_padding(None))

@@ -45,8 +45,8 @@ def _validate_values(binary_key_length: int, representation_length: int, padding
     if representation_length <= 0:
         raise ValueError('The length of the representation character(s) must be a whole number with a value greater '
                          'than 0.')
-    if len(padding_character) == 0:
-        raise ValueError('The padding character must consist of, at minimum, one character.')
+    if len(padding_character) != 1:
+        raise ValueError('The padding character must be a single character.')
 
     unique_character_count = len(_get_available_characters(padding_character))
     unique_combinations = math.pow(unique_character_count, representation_length)
