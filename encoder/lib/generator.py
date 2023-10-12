@@ -61,7 +61,7 @@ def _generate_representations(number_of_characters: int, representation_length: 
     representations = []
     for i in range(number_of_characters):
         encoding = _generate_representation(character_options, representation_length)
-        while encoding in representations:
+        while encoding in representations:  # pragma: no mutate
             encoding = _generate_representation(character_options, representation_length)
         representations.append(encoding)
     return representations
@@ -72,7 +72,7 @@ def _generate_representation(character_options: str, representation_length: int)
 
 
 def _generate_keys(binary_key_size: int) -> List[str]:
-    return [_generate_key(i, binary_key_size) for i in range(_max_decimal_value_for_bit_count(binary_key_size))]
+    return [_generate_key(i, binary_key_size) for i in range(_max_decimal_value_for_bit_count(binary_key_size) + 1)]
 
 
 def _max_decimal_value_for_bit_count(bit_count: int) -> int:

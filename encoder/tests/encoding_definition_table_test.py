@@ -7,7 +7,7 @@ from ..lib.data import EncodingDefinitionTable, get_or_default_dictionary, get_o
 
 class EncodingDefinitionTableTest(unittest.TestCase):
 
-    @timeout(5)
+    @timeout(3)
     def test_initialize_table_with_invalid_definition(self):
         arguments = [
             ('Empty dictionary.', 'at least one entry.', '=', {}),
