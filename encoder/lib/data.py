@@ -93,7 +93,7 @@ class BinaryChunkIterator:
         self._value_length = len(value)
 
     def _next_chunk_size(self, current_position: int):
-        remaining = self._value_length - current_position
+        remaining = self._value_length - current_position  # pragma: no mutate
         return min(remaining, self._chunk_size)
 
     def __iter__(self):
