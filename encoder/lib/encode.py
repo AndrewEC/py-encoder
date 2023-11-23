@@ -11,7 +11,7 @@ class Encoder(EncodingDefinitionTable):
     def __init__(self, encoding_dictionary: Dict[str, str], padding_character: str):
         super().__init__(encoding_dictionary, padding_character)
 
-    def _try_get_representation(self, binary_key: str) -> str:
+    def _get_representation(self, binary_key: str) -> str:
         if binary_key not in self._encoding_dictionary:
             raise Exception(f'Provided encoding dictionary has no binary key matching: [{binary_key}]')
         return self._encoding_dictionary[binary_key]
@@ -20,10 +20,10 @@ class Encoder(EncodingDefinitionTable):
         binary_chunk_length = len(binary_chunk)
 
         if binary_chunk_length == self._binary_key_length:
-            return self._try_get_representation(binary_chunk)
+            return self._get_representation(binary_chunk)
 
         padded_binary_string = rpad_string(binary_chunk, self._binary_key_length, '0')
-        unpadded_representation = self._try_get_representation(padded_binary_string)
+        unpadded_representation = self._get_representation(padded_binary_string)
 
         padding_length_div = 2 if self._even_key_length else 1
         padding_length = int((self._binary_key_length - binary_chunk_length) / padding_length_div)
