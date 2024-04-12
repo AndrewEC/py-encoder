@@ -132,7 +132,7 @@ class EncodingDefinitionTable:
 
     def _validate_dictionary_keys(self):
         if self._binary_key_length <= 0:
-            raise ValueError(f'The length of the binary key needs to be greater than 0.')
+            raise ValueError('The length of the binary key needs to be greater than 0.')
         for binary_key, representation in self._encoding_dictionary.items():
             if len(binary_key) != self._binary_key_length:
                 raise ValueError(
@@ -145,7 +145,7 @@ class EncodingDefinitionTable:
 
     def _validate_dictionary_values(self):
         if self._representation_value_length <= 0:
-            raise ValueError(f'The length of the encoded character representation needs to be greater than 0.')
+            raise ValueError('The length of the encoded character representation needs to be greater than 0.')
         for binary_key, representation in self._encoding_dictionary.items():
             if len(representation) != self._representation_value_length:
                 raise ValueError(

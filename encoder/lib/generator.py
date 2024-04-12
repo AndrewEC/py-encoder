@@ -30,7 +30,7 @@ def generate_encoding_dictionary(binary_key_length: int, representation_length: 
     :param representation_length: The number of characters to be used as an encoded representation of the binary value.
     :param padding_character: The character to be used as padding.
     :return: An encoding dictionary containing the padding character and a nested dictionary of binary keys
-    and the encoded characters they map to.
+        and the encoded characters they map to.
     """
 
     _validate_values(binary_key_length, representation_length, padding_character)

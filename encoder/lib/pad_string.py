@@ -17,7 +17,7 @@ def lpad_string(value: str, target_length: int, padding_character: str) -> str:
         length of the input value string is already greater or equal to target_length then a copy of value will
         be returned.
     """
-    
+
     padding = _get_padding(value, target_length, padding_character)
     return f'{padding}{value}'
 
@@ -35,6 +35,6 @@ def rpad_string(value: str, target_length: int, padding_character: str) -> str:
         length of the input value string is already greater or equal to target_length then a copy of value will
         be returned.
     """
-    
+
     padding = _get_padding(value, target_length, padding_character)
     return f'{value}{padding}'

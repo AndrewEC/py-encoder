@@ -1,6 +1,6 @@
 import click
 from buildutils import BuildConfiguration
-from buildutils.plugins import CoveragePlugin, MutationPlugin, FlakePlugin,\
+from buildutils.plugins import CoveragePlugin, MutationPlugin, FlakePlugin, \
     GenericCommandPlugin, GenericCleanPlugin, EnsureVenvActivePlugin, group
 
 

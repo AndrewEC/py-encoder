@@ -1,7 +1,6 @@
 from typing import Dict, Tuple
 from pathlib import Path
 import os
-import re
 from getpass import getpass
 
 import click
@@ -16,10 +15,16 @@ _DICTIONARY_FOLDER = Path(__file__).parent.joinpath('dictionaries').absolute()
 def _file_name_to_option(file_name: str) -> str:
     index = file_name.rfind('.')
     file_name = file_name[:index]
-    components = re.findall('[A-Z][^A-Z]*', file_name)
-    if len(components) == 0:
-        return file_name.lower()
-    return '-'.join([component.lower() for component in components])
+    final_name = ''
+    for index, char in enumerate(file_name):
+        if char.isupper():
+            if index == 0:
+                final_name = char
+            else:
+                final_name = f'{final_name}-{char}'
+        else:
+            final_name = final_name + char
+    return final_name
 
 
 def _build_dictionary_list() -> Dict[str, str]:

@@ -2,7 +2,7 @@ from typing import Dict
 
 from .convert import string_to_binary, bytes_to_binary
 from .pad_string import rpad_string
-from .data import EncodingDefinitionTable, BinaryChunkIterator, get_or_default_padding,\
+from .data import EncodingDefinitionTable, BinaryChunkIterator, get_or_default_padding, \
     get_or_default_dictionary
 
 
