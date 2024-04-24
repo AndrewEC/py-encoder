@@ -18,10 +18,11 @@ def _file_name_to_option(file_name: str) -> str:
     final_name = ''
     for index, char in enumerate(file_name):
         if char.isupper():
+            lower_char = char.lower()
             if index == 0:
-                final_name = char
+                final_name = lower_char
             else:
-                final_name = f'{final_name}-{char}'
+                final_name = f'{final_name}-{lower_char}'
         else:
             final_name = final_name + char
     return final_name
@@ -72,10 +73,6 @@ def encode_file_command(file: str, dictionary: str):
         print(encoded_value)
 
 
-encode_group.add_command(encode_string_command)
-encode_group.add_command(encode_file_command)
-
-
 @click.group('decode')
 def decode_group():
     pass
@@ -102,10 +99,6 @@ def decode_file_command(file_path: str, output: str, dictionary: str):
         file.write(decoded)
 
 
-decode_group.add_command(decode_file_command)
-decode_group.add_command(decode_string_command)
-
-
 @click.command('generate')
 @click.argument('binary_key_length', type=int)
 @click.argument('encoded_character_length', type=int)
@@ -124,6 +117,12 @@ def generate_command(binary_key_length: int, encoded_character_length: int, padd
 def main():
     pass
 
+
+encode_group.add_command(encode_string_command)
+encode_group.add_command(encode_file_command)
+
+decode_group.add_command(decode_file_command)
+decode_group.add_command(decode_string_command)
 
 main.add_command(encode_group)
 main.add_command(decode_group)
