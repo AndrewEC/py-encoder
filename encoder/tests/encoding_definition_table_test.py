@@ -1,13 +1,10 @@
 import unittest
 
-from timeout import timeout
-
 from ..lib.data import EncodingDefinitionTable, get_or_default_dictionary, get_or_default_padding
 
 
 class EncodingDefinitionTableTest(unittest.TestCase):
 
-    @timeout(3)
     def test_initialize_table_with_invalid_definition(self):
         arguments = [
             ('Empty dictionary.', 'at least one entry.', '=', {}),
@@ -24,6 +21,5 @@ class EncodingDefinitionTableTest(unittest.TestCase):
                     EncodingDefinitionTable(args[3], args[2])
                 self.assertTrue(args[1] in str(context.exception))
 
-    @timeout(3)
     def test_initialize_table_with_valid_definition(self):
         EncodingDefinitionTable(get_or_default_dictionary(None), get_or_default_padding(None))

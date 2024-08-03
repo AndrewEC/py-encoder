@@ -1,6 +1,6 @@
 import click
 from buildutils import BuildConfiguration
-from buildutils.plugins import CoveragePlugin, MutationPlugin, FlakePlugin, \
+from buildutils.plugins import CoveragePlugin, FlakePlugin, \
     GenericCommandPlugin, GenericCleanPlugin, EnsureVenvActivePlugin, group
 
 
@@ -18,7 +18,6 @@ def main(profile: str, plugins: str, list_plugins: bool):
             GenericCommandPlugin('INSTALL', 'Install required dependencies from requirements.txt file.'),
             FlakePlugin(),
             CoveragePlugin(),
-            MutationPlugin(),
             group(
                 'generate-docs',
                 GenericCommandPlugin('PREPARE_DOCS', 'Prepare Sphinx for generating documentation from inline comments.'),

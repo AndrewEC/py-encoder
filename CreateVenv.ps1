@@ -12,7 +12,6 @@ if (Test-Path $EnvFolder -PathType Container) {
         && Invoke-Expression "./$EnvFolder/Scripts/Activate.ps1" `
         && pip install -r requirements.txt
 
-    cd py-timeout && pip install . && cd ..
     cd py-build-utils && pip install . && cd ..
     pip install .
 }

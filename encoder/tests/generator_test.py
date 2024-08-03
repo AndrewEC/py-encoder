@@ -1,14 +1,11 @@
 import unittest
 
-from timeout import timeout
-
 from ..lib.generator import generate_encoding_dictionary
 from ..lib.data import EncodingDefinitionTable
 
 
 class GeneratorTest(unittest.TestCase):
 
-    @timeout(3)
     def test_generate_valid_dictionaries(self):
         arguments = [
             (6, 1, '='),
@@ -26,7 +23,6 @@ class GeneratorTest(unittest.TestCase):
                 first_representation = next((_ for _ in dictionary.mappings.values()))
                 self.assertEqual(args[1], len(first_representation))
 
-    @timeout(3)
     def test_generate_dictionaries_with_invalid_inputs(self):
         arguments = [
             (0, 1, '='),

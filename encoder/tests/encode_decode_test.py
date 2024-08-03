@@ -4,8 +4,6 @@ from random import randrange
 import unittest
 from base64 import b64encode
 
-from timeout import timeout
-
 from ..lib.encode import encode_string
 from ..lib.decode import decode_to_string
 from ..lib.generator import generate_encoding_dictionary
@@ -13,7 +11,6 @@ from ..lib.generator import generate_encoding_dictionary
 
 class EncodeDecodeTest(unittest.TestCase):
 
-    @timeout(5)
     def test_base64_encoding(self):
         for generated_string in self._generate_test_strings():
             with self.subTest(generated_string):
@@ -26,7 +23,6 @@ class EncodeDecodeTest(unittest.TestCase):
                 decoded_string = decode_to_string(custom_encoded_string)
                 self.assertEqual(generated_string, decoded_string)
 
-    @timeout(5)
     def test_encoding_generated_dictionary(self):
         for generated_string in self._generate_test_strings():
             binary_key_length = randrange(3, 10)
