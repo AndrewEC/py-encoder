@@ -1,4 +1,4 @@
-from typing import Dict, Tuple
+from typing import List, Tuple, Dict
 from pathlib import Path
 import os
 from getpass import getpass
@@ -10,30 +10,19 @@ from encoder import encode_string, encode_bytes, decode_to_bytes, decode_to_stri
 
 
 _DICTIONARY_FOLDER = Path(__file__).parent.joinpath('dictionaries').absolute()
+_DICTIONARY_NAME_TEMPLATE = '{}.yml'
 
 
-def _file_name_to_option(file_name: str) -> str:
-    index = file_name.rfind('.')
-    file_name = file_name[:index]
-    final_name = ''
-    for index, char in enumerate(file_name):
-        if char.isupper():
-            lower_char = char.lower()
-            if index == 0:
-                final_name = lower_char
-            else:
-                final_name = f'{final_name}-{lower_char}'
-        else:
-            final_name = final_name + char
-    return final_name
+def _remove_extension(file_name: str) -> str:
+    return Path(file_name).stem
 
 
-def _build_dictionary_list() -> Dict[str, str]:
-    return {_file_name_to_option(file_name): file_name for file_name in os.listdir(_DICTIONARY_FOLDER)}
+def _build_dictionary_list() -> List[str]:
+    return list(map(_remove_extension, os.listdir(_DICTIONARY_FOLDER)))
 
 
 def _read_dictionary_from_file(dictionary: str) -> Tuple[str, Dict[str, str]]:
-    dictionary_file_name = _AVAILABLE_DICTIONARIES[dictionary]
+    dictionary_file_name = _DICTIONARY_NAME_TEMPLATE.format(dictionary)
     dictionary_file = _DICTIONARY_FOLDER.joinpath(dictionary_file_name).absolute()
     with open(dictionary_file, 'r') as file:
         contents = yaml.safe_load(file)
@@ -54,7 +43,7 @@ def _get_value_to_encode(value: str) -> str:
 
 @click.command('string')
 @click.argument('value')
-@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
+@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES)), default='default')
 def encode_string_command(value: str, dictionary: str):
     padding, mappings = _read_dictionary_from_file(dictionary)
     print(encode_string(_get_value_to_encode(value), mappings, padding))
@@ -62,7 +51,7 @@ def encode_string_command(value: str, dictionary: str):
 
 @click.command('file')
 @click.argument('file')
-@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
+@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES)), default='default')
 def encode_file_command(file: str, dictionary: str):
     file_path = Path(file)
     if not file_path.is_file():
@@ -80,7 +69,7 @@ def decode_group():
 
 @click.command('string')
 @click.argument('value')
-@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
+@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES)), default='default')
 def decode_string_command(value: str, dictionary: str):
     padding, mappings = _read_dictionary_from_file(dictionary)
     print(decode_to_string(value, mappings, padding))
@@ -89,7 +78,7 @@ def decode_string_command(value: str, dictionary: str):
 @click.command('file')
 @click.argument('file_path')
 @click.argument('output')
-@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES.keys())), default='default')
+@click.option('--dictionary', '-d', type=click.Choice(list(_AVAILABLE_DICTIONARIES)), default='default')
 def decode_file_command(file_path: str, output: str, dictionary: str):
     padding, mappings = _read_dictionary_from_file(dictionary)
     with open(file_path, 'r') as file:

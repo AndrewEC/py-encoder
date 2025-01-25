@@ -4,9 +4,9 @@ from random import randrange
 import unittest
 from base64 import b64encode
 
-from ..lib.encode import encode_string
-from ..lib.decode import decode_to_string
-from ..lib.generator import generate_encoding_dictionary
+from encoder.lib.encode import encode_string
+from encoder.lib.decode import decode_to_string
+from encoder.lib.generator import generate_encoding_dictionary
 
 
 class EncodeDecodeTest(unittest.TestCase):
@@ -28,25 +28,24 @@ class EncodeDecodeTest(unittest.TestCase):
             binary_key_length = randrange(3, 10)
             representation_length = randrange(5, 10)
 
-            subtest_message = f'key_length=[{binary_key_length}], representation_length=[{representation_length}], string=[{generated_string}]'
+            subtest_message = (f'key_length=[{binary_key_length}], '
+                               f'representation_length=[{representation_length}], '
+                               f'string=[{generated_string}]')
 
             with self.subTest(subtest_message):
                 dictionary = generate_encoding_dictionary(binary_key_length, representation_length, '=')
 
                 encode_result = encode_string(generated_string, dictionary.mappings, dictionary.padding_character)
-                self.assertNotEqual(encode_result,generated_string)
+                self.assertNotEqual(encode_result, generated_string)
 
                 decode_result = decode_to_string(encode_result, dictionary.mappings, dictionary.padding_character)
                 self.assertEqual(decode_result, generated_string)
 
     def _generate_test_strings(self) -> List[str]:
-        generated_strings = []
+        generated_strings = set()
         while len(generated_strings) < 50:
-            generated_string = self._generate_string()
-            if generated_string in generated_strings:
-                continue
-            generated_strings.append(generated_string)
-        return generated_strings
+            generated_strings.add(self._generate_string())
+        return list(generated_strings)
 
     def _generate_string(self) -> str:
         string_length = randrange(1, 100)

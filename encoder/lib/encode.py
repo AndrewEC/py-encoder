@@ -2,8 +2,9 @@ from typing import Dict
 
 from .convert import string_to_binary, bytes_to_binary
 from .pad_string import rpad_string
-from .data import EncodingDefinitionTable, BinaryChunkIterator, get_or_default_padding, \
-    get_or_default_dictionary
+from .base64_defaults import get_or_default_padding, get_or_default_dictionary
+from .binary_chunk_iterator import BinaryChunkIterator
+from .encoding_definition_table import EncodingDefinitionTable
 
 
 class Encoder(EncodingDefinitionTable):

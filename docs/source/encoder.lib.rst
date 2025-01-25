@@ -4,18 +4,26 @@ encoder.lib package
 Submodules
 ----------
 
-encoder.lib.convert module
---------------------------
+encoder.lib.base64\_defaults module
+-----------------------------------
 
-.. automodule:: encoder.lib.convert
+.. automodule:: encoder.lib.base64_defaults
    :members:
    :undoc-members:
    :show-inheritance:
 
-encoder.lib.data module
------------------------
+encoder.lib.binary\_chunk\_iterator module
+------------------------------------------
 
-.. automodule:: encoder.lib.data
+.. automodule:: encoder.lib.binary_chunk_iterator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+encoder.lib.convert module
+--------------------------
+
+.. automodule:: encoder.lib.convert
    :members:
    :undoc-members:
    :show-inheritance:
@@ -32,6 +40,22 @@ encoder.lib.encode module
 -------------------------
 
 .. automodule:: encoder.lib.encode
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+encoder.lib.encoded\_string\_spliterator module
+-----------------------------------------------
+
+.. automodule:: encoder.lib.encoded_string_spliterator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+encoder.lib.encoding\_definition\_table module
+----------------------------------------------
+
+.. automodule:: encoder.lib.encoding_definition_table
    :members:
    :undoc-members:
    :show-inheritance:

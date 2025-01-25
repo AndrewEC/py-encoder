@@ -1,6 +1,7 @@
 import unittest
 
-from ..lib.data import EncodingDefinitionTable, get_or_default_dictionary, get_or_default_padding
+from encoder.lib.base64_defaults import get_or_default_dictionary, get_or_default_padding
+from encoder.lib.encoding_definition_table import EncodingDefinitionTable
 
 
 class EncodingDefinitionTableTest(unittest.TestCase):
@@ -21,5 +22,5 @@ class EncodingDefinitionTableTest(unittest.TestCase):
                     EncodingDefinitionTable(args[3], args[2])
                 self.assertTrue(args[1] in str(context.exception))
 
-    def test_initialize_table_with_valid_definition(self):
+    def test_initialize_table_with_valid_definition_does_not_raise_exception(self):
         EncodingDefinitionTable(get_or_default_dictionary(None), get_or_default_padding(None))

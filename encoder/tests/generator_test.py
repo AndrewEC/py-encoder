@@ -1,7 +1,7 @@
 import unittest
 
-from ..lib.generator import generate_encoding_dictionary
-from ..lib.data import EncodingDefinitionTable
+from encoder.lib.generator import generate_encoding_dictionary
+from encoder.lib.encoding_definition_table import EncodingDefinitionTable
 
 
 class GeneratorTest(unittest.TestCase):

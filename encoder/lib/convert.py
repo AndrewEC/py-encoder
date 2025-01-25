@@ -1,5 +1,5 @@
 from .pad_string import lpad_string
-from .data import BinaryChunkIterator
+from .binary_chunk_iterator import BinaryChunkIterator
 
 
 _BITS_IN_BYTE = 8

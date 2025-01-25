@@ -53,8 +53,10 @@ def _validate_values(binary_key_length: int, representation_length: int, padding
     unique_combinations = math.pow(unique_character_count, representation_length)
     max_decimal_value = _max_decimal_value_for_bit_count(binary_key_length)
     if max_decimal_value >= unique_combinations:
-        raise ValueError(f'A representation length of [{representation_length}] allows for [{unique_combinations}] unique combinations to represent a binary value. '
-                         f'However the a binary key length of [{binary_key_length}] requires [{max_decimal_value}] unique combinations to be available.')
+        raise ValueError(f'A representation length of [{representation_length}] allows for [{unique_combinations}] '
+                         f'unique combinations to represent a binary value. '
+                         f'However the a binary key length of [{binary_key_length}] requires '
+                         f'[{max_decimal_value}] unique combinations to be available.')
 
 
 def _generate_representations(number_of_characters: int, representation_length: int, padding_character: str) -> List[str]:
@@ -62,7 +64,7 @@ def _generate_representations(number_of_characters: int, representation_length: 
     representations = []
     for i in range(number_of_characters):
         encoding = _generate_representation(character_options, representation_length)
-        while encoding in representations:  # pragma: no mutate
+        while encoding in representations:
             encoding = _generate_representation(character_options, representation_length)
         representations.append(encoding)
     return representations
