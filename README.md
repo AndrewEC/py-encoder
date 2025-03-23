@@ -6,7 +6,7 @@ To clone the project and the required submodules run:
 > git clone --recurse-submodules https://github.com/AndrewEC/py-encoder.git
 
 ## Playground
-First run the powershell script `CreateVenv.ps1` from the root of this project then run the run.py script:
+First run the powershell script `RunScript.ps1 All` from the root of this project then run the run.py script:
 `python run.py --help`.
 
 ## Encoding Dictionary
@@ -16,7 +16,7 @@ you can run a command like `python run.py encode string --help` and get a list o
 be supplied with the `--dictionary` argument.
 
 ## Quality Metrics
-To run the unit and integration tests simply run the `CreateVenv.ps1` script the run the build script via:
+To run the unit and integration tests simply run the `RunScript.ps1 All` script the run the build script via:
 `python build.py`
 
 This build script, in addition to the running the unit and mutation tests, will also generate coverage reports,

@@ -9,3 +9,4 @@ py-encoder-venv
 html
 htmlcov
 _mutmutbed
+.coverage
