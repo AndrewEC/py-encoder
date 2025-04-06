@@ -62,7 +62,7 @@ def _validate_values(binary_key_length: int, representation_length: int, padding
 def _generate_representations(number_of_characters: int, representation_length: int, padding_character: str) -> List[str]:
     character_options = _get_available_characters(padding_character)
     representations = []
-    for i in range(number_of_characters):
+    for _ in range(number_of_characters):
         encoding = _generate_representation(character_options, representation_length)
         while encoding in representations:
             encoding = _generate_representation(character_options, representation_length)
